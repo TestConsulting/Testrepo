@@ -23,6 +23,7 @@ public class FirstTest {
       driver= WebDriverFactory.getDriver("chrome");
       driver.manage().window().fullscreen();
       driver.get("https://www.testconsulting.de/");
+        driver.get("https://www.testconsulting.de/");
 
     }
 
