@@ -1,36 +1,23 @@
 package AutoScout.tests;
 
-import AutoScout.pages.HomePage;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.AfterTest;
-
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 import java.time.Duration;
 
-
-public class searchTest extends HomePage{
-
+public class bewerbungTest {
     WebDriver driver;
     WebDriverWait wait;
-
-
-    String marke= "BMW";
-    public WebElement getMarkeElement(String marke) {
-        String xpath = "//h2/span[text()='" + marke + "']";
-        return driver.findElement(By.xpath(xpath));
-    }
-
+    String marke= "Ford";
 
     @BeforeTest
     public void setup() {
@@ -39,9 +26,7 @@ public class searchTest extends HomePage{
         driver.manage().window().maximize();
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.get("https://www.autoscout24.de/");
-    }
-
-    @Test
+    } @Test
     public void searchCarTest() throws InterruptedException {
 
         try {
@@ -76,23 +61,25 @@ public class searchTest extends HomePage{
 
         WebElement suchenButton = driver.findElement(By.id("search-mask-search-cta"));
         suchenButton.click();
-        Thread.sleep(5);
+        Thread.sleep(3);
 
-        WebElement resultTitle = wait.until(ExpectedConditions.visibilityOfElementLocated(
-        By.xpath("//h1[contains(text(),'Angebote für "+marke+ "')]")));
-        // Assertion
-        Assert.assertTrue(resultTitle.isDisplayed(), "Fail!");
+        WebElement firstItem= driver.findElement(By.className("ListItem_version__5EWfi"));
+        Thread.sleep(4);
+        System.out.println(firstItem.getText());
+        String firstInhalt= firstItem.getText();
+        firstItem.click();
+        Thread.sleep(3);
+        WebElement itemName= driver.findElement(By.className("StageTitle_modelVersion__Yof2Z"));
+        String secondInhalt=itemName.getText();
+        System.out.println(secondInhalt);
 
-
-
+        Assert.assertTrue(firstInhalt.contains(secondInhalt));
 
 
     }
 
     @AfterTest
     public void tearDown() {
-      driver.quit();
+        driver.quit();
     }
 }
-
-
